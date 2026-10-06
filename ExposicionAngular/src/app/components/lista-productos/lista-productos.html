@@ -1,0 +1,47 @@
+<section class="vista fade-in">
+
+    <div class="barra">
+        <div>
+            <h2>Inventario de Productos</h2>
+            <p>Administra alimentos, medicinas y accesorios veterinarios.</p>
+        </div>
+        <div class="controles">
+            <div class="buscador">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Buscar producto..." [(ngModel)]="busqueda">
+            </div>
+            <a routerLink="/nuevo" class="boton boton-primario">
+                <i class="fa-solid fa-plus"></i><span>Agregar</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="grid">
+        @for (p of filtrados(); track p.id) {
+        <app-tarjeta-producto [producto]="p" (editar)="editar($event)" (eliminar)="pedirConfirmacion($event)" />
+        }
+    </div>
+
+    @if (filtrados().length === 0) {
+    <div class="vacio">
+        <div class="vacio-icono"><i class="fa-solid fa-box-open"></i></div>
+        <h3>No se encontraron productos</h3>
+        <p>No hay registros que coincidan con tu búsqueda o el inventario está vacío.</p>
+        <a routerLink="/nuevo" class="boton boton-primario">Crear primer producto</a>
+    </div>
+    }
+</section>
+
+@if (porEliminar(); as p) {
+<div class="fondo-modal" (click)="cancelar()">
+    <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-icono"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h3>¿Eliminar producto?</h3>
+        <p>¿Seguro que deseas eliminar "{{ p.nombre }}"? Esta acción no se puede deshacer.</p>
+        <div class="modal-botones">
+            <button class="boton boton-secundario" (click)="cancelar()">Cancelar</button>
+            <button class="boton boton-peligro" (click)="confirmarEliminar()">Eliminar</button>
+        </div>
+    </div>
+</div>
+}

@@ -1,0 +1,24 @@
+<header class="header">
+    <div class="header-interno">
+        <a routerLink="/productos" class="marca">
+            <div class="logo"><i class="fa-solid fa-paw"></i></div>
+            <div>
+                <h1>Patitas Felices</h1>
+                <p>Sistema de Gestión Veterinaria</p>
+            </div>
+        </a>
+
+        <nav class="tabs">
+            <a routerLink="/productos" routerLinkActive="activo" class="tab">
+                <i class="fa-solid fa-box-open"></i><span>Catálogo</span>
+            </a>
+            <a routerLink="/nuevo" routerLinkActive="activo" class="tab">
+                <i class="fa-solid fa-circle-plus"></i><span>Nuevo Producto</span>
+            </a>
+        </nav>
+    </div>
+</header>
+
+<main class="contenedor">
+    <router-outlet />
+</main>

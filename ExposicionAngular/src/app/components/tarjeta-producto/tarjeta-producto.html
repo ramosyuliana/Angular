@@ -1,0 +1,36 @@
+<div class="tarjeta">
+    <div class="imagen">
+        <img [src]="producto().imagen || imagenDefecto" [alt]="producto().nombre"
+            (error)="$any($event.target).src = imagenDefecto">
+
+        <span class="badge" [class]="estado()">
+            @switch (estado()) {
+            @case ('agotado') { <i class="fa-solid fa-triangle-exclamation"></i> Agotado }
+            @case ('poco') { <i class="fa-solid fa-clock"></i> ¡Últimas {{ producto().cantidad }}! }
+            @default { <i class="fa-solid fa-check"></i> Stock: {{ producto().cantidad }} }
+            }
+        </span>
+    </div>
+
+    <div class="cuerpo">
+        <div>
+            <h3 class="nombre" [title]="producto().nombre">{{ producto().nombre }}</h3>
+            <p class="descripcion">{{ producto().descripcion }}</p>
+        </div>
+
+        <div class="pie">
+            <div>
+                <span class="etiqueta-precio">Precio</span>
+                <span class="precio">{{ producto().precio | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+            </div>
+            <div class="acciones">
+                <button class="icono-btn editar" title="Editar producto" (click)="editar.emit(producto())">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="icono-btn borrar" title="Eliminar producto" (click)="eliminar.emit(producto())">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
