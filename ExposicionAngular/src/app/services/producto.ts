@@ -6,7 +6,7 @@ import { Producto } from '../model/producto';
 @Injectable({ providedIn: 'root' })
 export class ProductoService {
 
-  private apiUrl = 'https://6ac4014cae53bf25b80f30f9.mockapi.io/api/v1/productos';
+  private apiUrl = 'http://localhost:8080/api/productos';
 
   constructor(private http: HttpClient) {}
 
@@ -14,15 +14,15 @@ export class ProductoService {
     return this.http.get<Producto[]>(this.apiUrl);
   }
   crearProducto(p: Producto): Observable<Producto> {
-    return this.http.post<Producto>(this.apiUrl, p);
+    return this.http.post<Producto>(`${this.apiUrl}/registrar`, p);
   }
   actualizarProducto(p: Producto): Observable<Producto> {
     return this.http.put<Producto>(`${this.apiUrl}/${p.id}`, p);
   }
-  eliminarProducto(id: string): Observable<void> {
+  eliminarProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-  obtenerProducto(id: string):Observable<Producto>{
+  obtenerProducto(id: number):Observable<Producto>{
     return this.http.get<Producto>(`${this.apiUrl}/${id}`);
 
   }
