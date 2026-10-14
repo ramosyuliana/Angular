@@ -3,8 +3,7 @@ package com.sena.edu.apirest.service;
 import java.util.List;
 import java.util.Optional;
 
-import  com.sena.edu.apirest.entity.*;
-
+import com.sena.edu.apirest.entity.Producto;
 
 public interface ProductoService {
 
@@ -12,13 +11,9 @@ public interface ProductoService {
 
     List<Producto> listarProductos();
 
-    Optional<Producto> buscarPorId(Integer idProducto);
+    Optional<Producto> obtenerPorId(Integer id);
 
-    Producto actualizarProducto(Integer idProducto,Producto producto);
+    Optional<Producto> actualizarProducto(Integer id, Producto datos);
 
-    void eliminarProducto(Integer idProducto);
-
-    Producto cambiarEstadoProducto(Integer idProducto,EstadoProducto nuevoEstadoProducto);
-
-    
+    boolean eliminarProducto(Integer id);
 }

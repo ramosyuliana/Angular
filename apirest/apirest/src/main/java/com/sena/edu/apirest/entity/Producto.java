@@ -1,5 +1,7 @@
 package com.sena.edu.apirest.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,16 +22,19 @@ public class Producto {
     
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idProducto;
+    @JsonProperty("id")
+    private Integer idProducto;
 
+    @JsonProperty("nombre")
     @Column(name="NombreProducto",nullable = false,length =200)
     private String nombreProducto;
+    
     @Column(name="Descripcion")
     private String descripcion;
     @Column(name="Cantidad",nullable = false)
-    private int cantidad;
+    private Integer cantidad;
     @Column(name="Precio",nullable = false)
-    private double precio;
+    private Double precio;
     @Column(name="Imagen",nullable = false)
     private String imagen;
     @Enumerated(EnumType.STRING)

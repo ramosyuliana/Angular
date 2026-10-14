@@ -6,77 +6,63 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sena.edu.apirest.entity.EstadoProducto;
-import com.sena.edu.apirest.entity.Producto;
+import com.sena.edu.apirest.entity.*;
+import com.sena.edu.apirest.repository.ProductoRepository;
 import com.sena.edu.apirest.service.ProductoService;
 
-import lombok.SneakyThrows;
-
-import com.sena.edu.apirest.repository.*;
-
-@Service 
+@Service
 public class ProductoServiceImpl implements ProductoService {
 
-    @Autowired 
+    @Autowired
     private ProductoRepository productoRepository;
 
     @Override
-    @SneakyThrows 
-    public Producto actualizarProducto (Integer idProducto,Producto producto) {
-        Producto productoExistente = productoRepository.findById(idProducto)
-        .orElseThrow(() -> new Exception("Producto con ID"+idProducto+"No encontrado"));
-        
-        productoExistente.setNombreProducto(producto.getNombreProducto());
-        productoExistente.setDescripcion(producto.getDescripcion());
-        productoExistente.setCantidad(producto.getCantidad());
-        productoExistente.setPrecio(producto.getPrecio());
-        productoExistente.setImagen(producto.getImagen());
-        productoExistente.setEstadoProducto(producto.getEstadoProducto());
+    public Producto registrarProducto(Producto producto) {
+        producto.setIdProducto(null);                                   // fuerza un registro nuevo
 
-        Producto productoActualizado = productoRepository.save(productoExistente);
-
-        return productoActualizado;
-    
-    }
-
-    @Override
-    public Optional<Producto> buscarPorId(Integer idProducto) {
-        return productoRepository.findById(idProducto);
-    }
-
-    
-
-    @Override
-    @SneakyThrows 
-    public Producto cambiarEstadoProducto(Integer idProducto, EstadoProducto nuevoEstadoProducto) {
-        Producto productoExistente = productoRepository.findById(idProducto)
-        .orElseThrow(() -> new Exception("Producto con ID"+idProducto+"No encontrado"));
-        productoExistente.setEstadoProducto(nuevoEstadoProducto);
-        return productoRepository.save(productoExistente);
-    }
-
-    @Override
-    @SneakyThrows 
-    public void eliminarProducto(Integer idProducto) {
-        productoRepository.findById(idProducto)
-        .orElseThrow(() -> new Exception("Producto con ID"+idProducto+"No encontrado"));
-        productoRepository.deleteById(idProducto);
-        
+        if (producto.getCantidad() == null) {
+            producto.setCantidad(0);
+        }
+        if (producto.getPrecio() == null) {
+            producto.setPrecio(0.0);
+        }
+        if (producto.getEstadoProducto() == null) {
+            producto.setEstadoProducto(EstadoProducto.DISPONIBLE);       // cámbienlo por un valor de su enum
+        }
+        return productoRepository.save(producto);
     }
 
     @Override
     public List<Producto> listarProductos() {
-        List<Producto> productos = productoRepository.findAll();
-        return productos.stream()
-        .toList();
+        return productoRepository.findAll();
     }
-
-    
 
     @Override
-    public Producto registrarProducto(Producto producto) {
-        return productoRepository.save(producto);
+    public Optional<Producto> obtenerPorId(Integer id) {
+        return productoRepository.findById(id);
     }
 
-    
+    @Override
+    public Optional<Producto> actualizarProducto(Integer id, Producto datos) {
+        return productoRepository.findById(id).map(existente -> {
+            existente.setNombreProducto(datos.getNombreProducto());
+            existente.setDescripcion(datos.getDescripcion());
+            existente.setCantidad(datos.getCantidad());
+            existente.setPrecio(datos.getPrecio());
+            existente.setImagen(datos.getImagen());
+            if (datos.getEstadoProducto() != null) {
+                existente.setEstadoProducto(datos.getEstadoProducto());
+            }
+            return productoRepository.save(existente);
+        });
+    }
+
+    @Override
+    public boolean eliminarProducto(Integer id) {
+        if (!productoRepository.existsById(id)) {
+            return false;
+        }
+        productoRepository.deleteById(id);
+        return true;
+    }
 }
