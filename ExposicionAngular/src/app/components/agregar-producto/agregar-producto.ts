@@ -18,7 +18,7 @@ export class FormProducto implements OnInit {
     private servicio: ProductoService,
     private router: Router,
     private ruta: ActivatedRoute,
-    private cdr: ChangeDetectorRef          // 1. se inyecta
+    private cdr: ChangeDetectorRef         
   ) {}
 
   ngOnInit() {
@@ -27,10 +27,10 @@ export class FormProducto implements OnInit {
 
     if (id) {
       this.editando = true;
-      this.servicio.obtenerProducto(id).subscribe(p => {
+      this.servicio.obtenerProducto(Number(id)).subscribe(p => {
         console.log('Producto recibido:', p);
         this.producto = p;
-        this.cdr.detectChanges();           // 2. se avisa a Angular que redibuje
+        this.cdr.detectChanges();           
       });
     }
   }
