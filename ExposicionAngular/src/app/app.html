@@ -1,23 +1,61 @@
+@if(mostrarHeader()){
 <header class="header">
     <div class="header-interno">
         <a routerLink="/productos" class="marca">
             <div class="logo"><i class="fa-solid fa-paw"></i></div>
-            <div>
+            <div class="marca-texto">
                 <h1>Patitas Felices</h1>
-                <p>Sistema de Gestión Veterinaria</p>
+                <p>{{authService.isAdmin() ? 'Sistema de Gestión Veterinaria': 'Pagina pa comprar chimbadas para sus mascotas (Meme te amo)'}}</p>
             </div>
         </a>
 
         <nav class="tabs">
-            <a routerLink="/productos" routerLinkActive="activo" class="tab">
-                <i class="fa-solid fa-box-open"></i><span>Catálogo</span>
+            <a routerLink="/productos" routerLinkActive="activo" class="tab" aria-label="Catálogo">
+                <i class="fa-solid fa-box-open"></i>
+                <span>Catálogo</span>
             </a>
-            <a routerLink="/nuevo" routerLinkActive="activo" class="tab">
-                <i class="fa-solid fa-circle-plus"></i><span>Nuevo Producto</span>
+
+            @if (!authService.isLoggedIn()) {
+            <a routerLink="/login" class="tab tab-principal" aria-label="Iniciar sesión">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span>Iniciar Sesión</span>
             </a>
+            }
+            @else {
+
+            @if (authService.isAdmin()) {
+            <a routerLink="/nuevo" routerLinkActive="activo" class="tab" aria-label="Nuevo producto">
+                <i class="fa-solid fa-circle-plus"></i>
+                <span>Nuevo Producto</span>
+            </a>
+            }@else{
+
+            <button type="button" onclick="openCart()" class="tab tab-carrito" aria-label="Carrito">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Carrito</span>
+                <!-- Se oculta solo cuando está vacío: pon aquí el contador, ej. {{ cantidadCarrito }} -->
+                <span class="contador"></span>
+            </button>
+            }
+            @if (authService.usuarioActual; as usuario) {
+            <div class="usuario-info">
+                <div class="usuario-avatar">{{ usuario.Nombre.charAt(0) }}</div>
+                <div class="usuario-datos">
+                    <span class="usuario-nombre">{{ usuario.Nombre }}</span>
+                    <span class="usuario-rol">{{ usuario.Rol }}</span>
+                </div>
+            </div>
+            }
+
+            <button type="button" (click)="authService.logout()" class="tab tab-salir" aria-label="Cerrar sesión">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Salir</span>
+            </button>
+            }
         </nav>
     </div>
 </header>
+}
 
 <main class="contenedor">
     <router-outlet />

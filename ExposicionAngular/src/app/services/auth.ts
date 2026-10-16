@@ -4,7 +4,7 @@ import { Observable, tap } from 'rxjs';
 
 export interface LoginRequest{
     Email: string;
-    Contraseña: string;
+    Contrasena: string;
 }
 
 export interface Usuario {
@@ -42,11 +42,11 @@ export class AuthService{
   }
 
   isAdmin(): boolean {
-    return this.usuarioActual?.Rol?.toUpperCase() === 'Administrador';
+    return this.usuarioActual?.Rol?.toUpperCase() === 'ADMINISTRADOR';
   }
 
   isCliente(): boolean {
-    return this.usuarioActual?.Rol?.toUpperCase() === 'Cliente';
+    return this.usuarioActual?.Rol?.toUpperCase() === 'CLIENTE';
   }
 
   logout(): void {

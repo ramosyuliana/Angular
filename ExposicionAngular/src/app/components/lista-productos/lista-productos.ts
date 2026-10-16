@@ -1,9 +1,10 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, computed, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Producto } from '../../model/producto';
 import { ProductoService } from '../../services/producto';
 import { TarjetaProducto } from '../tarjeta-producto/tarjeta-producto';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-lista-productos',
@@ -15,6 +16,8 @@ export class ListaProductos implements OnInit {
   productos = signal<Producto[]>([]);
   busqueda = signal('');
   porEliminar = signal<Producto | null>(null);
+
+  public authService = inject(AuthService);
 
   // Se recalcula sola cuando cambian productos o busqueda
   filtrados = computed(() => {

@@ -2,17 +2,20 @@
 
     <div class="barra">
         <div>
-            <h2>Inventario de Productos</h2>
-            <p>Administra alimentos, medicinas y accesorios veterinarios.</p>
+            <h2>{{authService.isAdmin() ? 'Inventario de Productos': 'Catálogo de Productos'}}</h2>
+            <p>{{authService.isAdmin() ? 'Administra alimentos, medicinas y accesorios veterinarios.': 'Compre lo que se le de la gana perrito'}}</p>
         </div>
         <div class="controles">
             <div class="buscador">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" placeholder="Buscar producto..." [(ngModel)]="busqueda">
             </div>
+
+            @if(authService.isAdmin()){
             <a routerLink="/nuevo" class="boton boton-primario">
                 <i class="fa-solid fa-plus"></i><span>Agregar</span>
             </a>
+            }
         </div>
     </div>
 
@@ -22,12 +25,18 @@
         }
     </div>
 
-    @if (filtrados().length === 0) {
+    @if (filtrados().length === 0 && authService.isAdmin()) {
     <div class="vacio">
         <div class="vacio-icono"><i class="fa-solid fa-box-open"></i></div>
         <h3>No se encontraron productos</h3>
         <p>No hay registros que coincidan con tu búsqueda o el inventario está vacío.</p>
         <a routerLink="/nuevo" class="boton boton-primario">Crear primer producto</a>
+    </div>
+    }@else {
+    <div class="vacio">
+        <div class="vacio-icono"><i class="fa-solid fa-box-open"></i></div>
+        <h3>No se encontraron productos</h3>
+        <p>No hay registros que coincidan con tu búsqueda o el inventario está vacío.</p>
     </div>
     }
 </section>

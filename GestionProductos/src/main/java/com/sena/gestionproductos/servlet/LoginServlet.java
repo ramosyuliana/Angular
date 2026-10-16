@@ -34,7 +34,15 @@ public class LoginServlet extends BaseApiServlet {
             String jsonBody = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
             LoginRequest dto = JsonUtil.fromJson(jsonBody, LoginRequest.class);
 
-            Usuario oUsuario = usuarioService.autenticar(dto.Emial, dto.Contraseña);
+            Usuario oUsuario = usuarioService.autenticar(dto.Email, dto.Contrasena);
+            
+            
+            
+            if (oUsuario != null) {
+                writeJson(resp, 200, oUsuario);
+            } else {
+                writeJson(resp, 401, new ApiError("UNAUTHORIZED", "Correo o contraseña incorrectos"));
+            }
         } catch (NumberFormatException ex) {
             writeJson(resp, 400, new ApiError("BAD_REQUEST", "Las credenciales no son validas"));
         } catch (IllegalArgumentException ex) {

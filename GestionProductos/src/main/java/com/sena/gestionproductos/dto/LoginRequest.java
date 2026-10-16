@@ -10,8 +10,8 @@ package com.sena.gestionproductos.dto;
  */
 public class LoginRequest {
     
-    public String Emial;
+    public String Email;
     
-    public String Contraseña;
+    public String Contrasena;
     
 }
