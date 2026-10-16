@@ -3,7 +3,8 @@
     <div class="barra">
         <div>
             <h2>{{authService.isAdmin() ? 'Inventario de Productos': 'Catálogo de Productos'}}</h2>
-            <p>{{authService.isAdmin() ? 'Administra alimentos, medicinas y accesorios veterinarios.': 'Compre lo que se le de la gana perrito'}}</p>
+            <p>{{authService.isAdmin() ? 'Administra alimentos, medicinas y accesorios veterinarios.': 'Compre lo que se
+                le de la gana perrito'}}</p>
         </div>
         <div class="controles">
             <div class="buscador">
@@ -25,18 +26,14 @@
         }
     </div>
 
-    @if (filtrados().length === 0 && authService.isAdmin()) {
+    @if (filtrados().length === 0 ) {
     <div class="vacio">
         <div class="vacio-icono"><i class="fa-solid fa-box-open"></i></div>
         <h3>No se encontraron productos</h3>
         <p>No hay registros que coincidan con tu búsqueda o el inventario está vacío.</p>
+        @if(authService.isAdmin()){
         <a routerLink="/nuevo" class="boton boton-primario">Crear primer producto</a>
-    </div>
-    }@else {
-    <div class="vacio">
-        <div class="vacio-icono"><i class="fa-solid fa-box-open"></i></div>
-        <h3>No se encontraron productos</h3>
-        <p>No hay registros que coincidan con tu búsqueda o el inventario está vacío.</p>
+        }
     </div>
     }
 </section>

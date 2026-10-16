@@ -6,17 +6,18 @@
         <p>Ingresa a tu cuenta para continuar</p>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+    <!-- Se agrega class="formulario" -->
+    <form class="formulario" [formGroup]="form" (ngSubmit)="enviar()" novalidate>
 
         <div>
             <label for="email">Correo Electrónico</label>
             <div class="campo">
                 <span class="icono"><i class="fa-solid fa-envelope"></i></span>
-                <input type="email" id="email" formControlName="email"
-                       autocomplete="email" placeholder="ejemplo@correo.com">
+                <input type="email" id="email" formControlName="email" autocomplete="email"
+                    placeholder="ejemplo@correo.com">
             </div>
             @if (form.controls.email.touched && form.controls.email.invalid) {
-                <small>Ingresa un correo válido</small>
+            <small>Ingresa un correo válido</small>
             }
         </div>
 
@@ -24,16 +25,16 @@
             <label for="password">Contraseña</label>
             <div class="campo">
                 <span class="icono"><i class="fa-solid fa-lock"></i></span>
-                <input type="password" id="password" formControlName="password"
-                       autocomplete="current-password" placeholder="••••••••">
+                <input type="password" id="password" formControlName="password" autocomplete="current-password"
+                    placeholder="••••••••">
             </div>
             @if (form.controls.password.touched && form.controls.password.invalid) {
-                <small>Mínimo 8 caracteres</small>
+            <small>Mínimo 8 caracteres</small>
             }
         </div>
 
         @if (error()) {
-            <p class="error">{{ error() }}</p>
+        <p class="error">{{ error() }}</p>
         }
 
         <button type="submit" [disabled]="cargando()" class="boton">

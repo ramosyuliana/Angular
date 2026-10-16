@@ -1,0 +1,87 @@
+<div class="container">
+
+    <div class="page-header">
+        <h2>Tu Carrito de Compras</h2>
+        <p>Revisa los artículos seleccionados y procede al pago cuando estés listo.</p>
+    </div>
+
+    <div class="cart-layout">
+
+        <!-- LISTA DE PRODUCTOS EN EL CARRITO -->
+        <div class="cart-items-container">
+
+            @for (item of carritoService.carrito(); track item.producto.id) {
+            <div class="cart-item-card">
+                <div class="cart-item-info">
+                    <img [src]="item.producto.imagen || 'assets/img/default-product.png'" [alt]="item.producto.nombre"
+                        class="cart-item-img">
+                    <div class="cart-item-details">
+                        <h4>{{ item.producto.nombre }}</h4>
+                        <p>{{ item.producto.descripcion }}</p>
+                        <span class="cart-item-price">
+                            {{ item.producto.precio | currency:'COP':'symbol-narrow':'1.0-0' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="cart-item-actions">
+                    <div class="quantity-control">
+                        <button (click)="carritoService.actualizarCantidad(item.producto.id!, -1)"
+                            [disabled]="item.cantidadSeleccionada <= 1">-</button>
+                        <span>{{ item.cantidadSeleccionada }}</span>
+                        <button (click)="carritoService.actualizarCantidad(item.producto.id!, 1)">+</button>
+                    </div>
+
+                    <span class="subtotal-text">
+                        {{ (item.producto.precio * item.cantidadSeleccionada) | currency:'COP':'symbol-narrow':'1.0-0'
+                        }}
+                    </span>
+
+                    <button class="btn-delete" title="Eliminar producto"
+                        (click)="carritoService.eliminarProducto(item.producto.id!)">
+                        🗑️
+                    </button>
+                </div>
+            </div>
+            } @empty {
+            <div class="empty-cart">
+                <h3>Tu carrito está vacío</h3>
+                <p>Parece que aún no has agregado productos a tu compra.</p>
+                <a routerLink="/productos" class="btn-back">Ver Productos</a>
+            </div>
+            }
+
+        </div>
+
+        <!-- RESUMEN DEL PEDIDO (SIDEBAR) -->
+        <div class="cart-summary">
+            <h3>Resumen del Pedido</h3>
+
+            <div class="summary-row">
+                <span>Subtotal productos</span>
+                <span>{{ carritoService.subtotal() | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+            </div>
+
+            <div class="summary-row">
+                <span>Costo de envío / servicio</span>
+                <span>
+                    {{ (carritoService.carrito().length > 0 ? costoEnvio : 0) | currency:'COP':'symbol-narrow':'1.0-0'
+                    }}
+                </span>
+            </div>
+
+            <div class="summary-row total">
+                <span>Total a Pagar</span>
+                <span class="total-amount">
+                    {{ obtenerTotal() | currency:'COP':'symbol-narrow':'1.0-0' }}
+                </span>
+            </div>
+
+            <button class="btn-checkout" [disabled]="carritoService.carrito().length === 0" (click)="procesarPago()">
+                Confirmar y Pagar
+            </button>
+        </div>
+
+    </div>
+
+</div>

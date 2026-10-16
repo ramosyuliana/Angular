@@ -1,6 +1,9 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { Producto } from '../../model/producto';
+import { AuthService } from '../../services/auth';
+import { CarritoService } from '../../services/carrito-service';
+
 
 @Component({
   selector: 'app-tarjeta-producto',
@@ -9,6 +12,10 @@ import { Producto } from '../../model/producto';
   styleUrl: './tarjeta-producto.css'
 })
 export class TarjetaProducto {
+
+  public authService = inject(AuthService);
+  public carritoService = inject(CarritoService);
+
   producto = input.required<Producto>();   
   editar = output<Producto>();             
   eliminar = output<Producto>();           

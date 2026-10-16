@@ -24,12 +24,20 @@
                 <span class="precio">{{ producto().precio | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
             </div>
             <div class="acciones">
+                @if(authService.isLoggedIn() && authService.isAdmin()){
                 <button class="icono-btn editar" title="Editar producto" (click)="editar.emit(producto())">
                     <i class="fa-solid fa-pen"></i>
                 </button>
                 <button class="icono-btn borrar" title="Eliminar producto" (click)="eliminar.emit(producto())">
                     <i class="fa-solid fa-trash"></i>
                 </button>
+                }@else if(authService.isLoggedIn() && authService.isCliente()){
+                <button class="icono-btn"
+                        [disabled]="estado() === 'agotado'"
+                        (click)="carritoService.agregarProducto(producto())">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </button>
+                }
             </div>
         </div>
     </div>

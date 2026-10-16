@@ -5,7 +5,8 @@
             <div class="logo"><i class="fa-solid fa-paw"></i></div>
             <div class="marca-texto">
                 <h1>Patitas Felices</h1>
-                <p>{{authService.isAdmin() ? 'Sistema de Gestión Veterinaria': 'Pagina pa comprar chimbadas para sus mascotas (Meme te amo)'}}</p>
+                <p>{{authService.isAdmin() ? 'Sistema de Gestión Veterinaria': 'Pagina pa comprar chimbadas para sus
+                    mascotas (Meme te amo)'}}</p>
             </div>
         </a>
 
@@ -30,12 +31,14 @@
             </a>
             }@else{
 
-            <button type="button" onclick="openCart()" class="tab tab-carrito" aria-label="Carrito">
+            <a routerLink="/carrito" class="tab tab-carrito" aria-label="Carrito">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span>Carrito</span>
-                <!-- Se oculta solo cuando está vacío: pon aquí el contador, ej. {{ cantidadCarrito }} -->
-                <span class="contador"></span>
-            </button>
+                @if(carritoService.totalItems() > 0){
+                <span class="contador">{{carritoService.totalItems()}}</span>
+                }
+
+            </a>
             }
             @if (authService.usuarioActual; as usuario) {
             <div class="usuario-info">

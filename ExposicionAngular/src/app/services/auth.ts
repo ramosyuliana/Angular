@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 export interface LoginRequest{
     Email: string;
@@ -22,7 +23,7 @@ export class AuthService{
 
     private apiUrl = 'http://localhost:8080/GestionProductos/api/login';
 
-    constructor(private http: HttpClient){}
+    constructor(private http: HttpClient, private router: Router){}
 
     login(credenciales: LoginRequest): Observable<Usuario> {
     return this.http.post<Usuario>(this.apiUrl, credenciales).pipe(
@@ -51,6 +52,7 @@ export class AuthService{
 
   logout(): void {
     localStorage.removeItem('usuario');
+    this.router.navigate(['/login']);
   }
 
 }

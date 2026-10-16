@@ -6,3 +6,8 @@ export interface Producto{
     precio:number;
     imagen:string;
 }
+
+export interface ItemCarrito{
+    producto: Producto,
+    cantidadSeleccionada: number
+}

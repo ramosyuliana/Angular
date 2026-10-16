@@ -1,6 +1,7 @@
 import { Component, inject, computed } from '@angular/core';
 import { RouterLink, RouterOutlet,RouterLinkActive,  NavigationEnd, Router, } from '@angular/router';
 import { AuthService } from './services/auth';
+import { CarritoService } from './services/carrito-service';
 import { CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
@@ -15,6 +16,7 @@ import { filter, map } from 'rxjs';
 export class App {
 
   public authService = inject(AuthService);
+  public carritoService = inject(CarritoService);
 
 private router = inject(Router);
 
